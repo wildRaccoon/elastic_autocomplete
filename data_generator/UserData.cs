@@ -4,14 +4,14 @@ namespace data_generator
 {
     public class UserData
     {
-        public string FirstName { get; set; }
+        public string firstName { get; set; }
         
-        public int Id { get; set; }
+        public int id { get; set; }
 
-        public string LastName { get; set; }
+        public string lastName { get; set; }
 
-        public string Email { get; set; }
+        public string email { get; set; }
         
-        public List<string> Tags { get; set; }
+        public List<string> tags { get; set; }
     }
 }

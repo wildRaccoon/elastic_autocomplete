@@ -11,11 +11,11 @@ namespace data_generator
         {
             var id = 1;
             var testUsers = new Faker<UserData>()
-                .CustomInstantiator(r => new UserData() {Id = id++})
-                .RuleFor(p => p.FirstName, f => f.Name.FirstName())
-                .RuleFor(p => p.LastName, f => f.Name.LastName())
-                .RuleFor(p => p.Email, (f, u) => f.Internet.Email(u.FirstName,u.LastName))
-                .RuleFor(p => p.Tags, (f, u) =>
+                .CustomInstantiator(r => new UserData() {id = id++})
+                .RuleFor(p => p.firstName, f => f.Name.FirstName())
+                .RuleFor(p => p.lastName, f => f.Name.LastName())
+                .RuleFor(p => p.email, (f, u) => f.Internet.Email(u.firstName,u.lastName))
+                .RuleFor(p => p.tags, (f, u) =>
                 new List<string>()
                     {
                         f.Address.Country(), f.Address.City(), f.Vehicle.Manufacturer()

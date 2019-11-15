@@ -1,0 +1,25 @@
+{
+    "index_patterns": [
+        "idx_test_*"
+    ],
+    "mappings": {
+        "properties": {
+            "id": {
+                "type": "keyword",
+                "index": true
+            },
+            "name": {
+                "type": "keyword",
+                "index": "true",
+                "store": "true"
+            },
+            "tags": {
+                "type": "text",
+                "index": true
+            }
+        }
+    },
+    "aliases": {
+        "idx_test": {}
+    }
+}

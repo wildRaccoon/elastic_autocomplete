@@ -1,0 +1,17 @@
+using System.Collections.Generic;
+
+namespace data_generator
+{
+    public class UserData
+    {
+        public string FirstName { get; set; }
+        
+        public int Id { get; set; }
+
+        public string LastName { get; set; }
+
+        public string Email { get; set; }
+        
+        public List<string> Tags { get; set; }
+    }
+}

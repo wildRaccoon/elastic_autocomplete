@@ -13,17 +13,17 @@
                 "index": "true",
                 "store": "true"
             },
-					  "lastName": {
+			"lastName": {
                 "type": "text",
                 "index": "true",
                 "store": "true"
             },
-					  "email": {
+			"email": {
                 "type": "text",
                 "index": "true",
                 "store": "true"
             },
-						"tags": {
+			"tags": {
                 "type": "text",
                 "index": true
             }

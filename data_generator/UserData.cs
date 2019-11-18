@@ -6,7 +6,7 @@ namespace data_generator
     {
         public string firstName { get; set; }
         
-        public int id { get; set; }
+        public string id { get; set; }
 
         public string lastName { get; set; }
 

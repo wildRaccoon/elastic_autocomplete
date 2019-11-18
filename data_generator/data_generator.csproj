@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="bogus" Version="28.4.1" />
+    <PackageReference Include="NEST" Version="7.4.1" />
   </ItemGroup>
 
 </Project>

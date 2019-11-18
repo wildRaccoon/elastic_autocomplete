@@ -8,12 +8,22 @@
                 "type": "keyword",
                 "index": true
             },
-            "name": {
-                "type": "keyword",
+            "firstName": {
+                "type": "text",
                 "index": "true",
                 "store": "true"
             },
-            "tags": {
+					  "lastName": {
+                "type": "text",
+                "index": "true",
+                "store": "true"
+            },
+					  "email": {
+                "type": "text",
+                "index": "true",
+                "store": "true"
+            },
+						"tags": {
                 "type": "text",
                 "index": true
             }

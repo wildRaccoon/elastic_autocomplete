@@ -13,5 +13,7 @@ namespace data_generator
         public string email { get; set; }
         
         public List<string> tags { get; set; }
+        
+        public List<string> suggest { get; set; }
     }
 }

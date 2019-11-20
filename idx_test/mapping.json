@@ -18,6 +18,16 @@
                 "index": "true",
                 "store": "true"
             },
+			"model": {
+                "type": "text",
+                "index": "true",
+                "store": "true"
+            },
+			"manufacturer": {
+                "type": "text",
+                "index": "true",
+                "store": "true"
+            },
 					  "email": {
                 "type": "text",
                 "index": "true",
@@ -27,9 +37,9 @@
                 "type": "text",
                 "index": true
             },
-            "suggest": {
-                    "type": "completion"
-            }
+					 "suggest": {
+						 		"type": "completion"
+						}
         }
     },
     "aliases": {

@@ -19,16 +19,18 @@ namespace data_generator
                 .CustomInstantiator(r => new UserData() {id = Interlocked.Add(ref id, 1).ToString("000000000000000")})
                 .RuleFor(p => p.firstName, f => f.Name.FirstName())
                 .RuleFor(p => p.lastName, f => f.Name.LastName())
+                .RuleFor(p => p.model, f => f.Vehicle.Model())
+                .RuleFor(p => p.manufacturer, f => f.Vehicle.Manufacturer())
                 .RuleFor(p => p.email, (f, u) => f.Internet.Email(u.firstName,u.lastName))
                 .RuleFor(p => p.tags, (f, u) =>
                     new List<string>()
                     {
-                        f.Address.Country(), f.Address.City(), f.Vehicle.Manufacturer()
+                        f.Address.Country(), f.Address.City(), f.Vehicle.Manufacturer(), f.Vehicle.Model()
                     })
                 .RuleFor(p => p.suggest, (f, u) =>
                     new List<string>()
                     {
-                        f.Internet.Email(), f.Name.FirstName(), f.Name.LastName(), f.Vehicle.Manufacturer()
+                        f.Internet.Email(), f.Name.FirstName(), f.Name.LastName(), f.Vehicle.Manufacturer(), f.Vehicle.Model()
                     });
 
             var connection = new ConnectionSettings()
@@ -55,7 +57,7 @@ namespace data_generator
             const int CYCLES = 1000;
             const int REC_PER_CYCLES = 5000;
 
-            for (int i = 0; i < 500; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 var items = testUsers.Generate(REC_PER_CYCLES);
                 var ops = items.Select(x => new BulkIndexOperation<UserData>(x)).ToArray();

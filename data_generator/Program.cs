@@ -11,7 +11,18 @@ namespace data_generator
 {
     class Program
     {
-        static void Main(string[] args)
+        static ElasticClient CreateCli()
+        {
+            var connection = new ConnectionSettings()
+                .DefaultMappingFor<UserData>(i => i
+                    .IndexName("idx_test")
+                    .IdProperty(p => p.id));
+
+            var cli = new ElasticClient(connection);
+
+            return cli;
+        }
+        static void Generate()
         {
             var id = 0l;
             
@@ -33,12 +44,7 @@ namespace data_generator
                         f.Internet.Email(), f.Name.FirstName(), f.Name.LastName(), f.Vehicle.Manufacturer(), f.Vehicle.Model()
                     });
 
-            var connection = new ConnectionSettings()
-                .DefaultMappingFor<UserData>(i => i
-                    .IndexName("idx_test")
-                    .IdProperty(p => p.id));
-
-            var cli = new ElasticClient(connection);
+            var cli = CreateCli();
 
             var catResp = cli.Cat.Indices(r => r.Index("idx_test"));
             if (catResp.IsValid && catResp.Records.Count > 0)
@@ -67,6 +73,65 @@ namespace data_generator
                 });
                 
                 Console.WriteLine(i);
+            }
+        }
+
+        static void PrintSugestion(ElasticClient cli, string text)
+        {
+            var name = "my-suggest";
+
+            var result = cli.Search<UserData>(
+                s => s.Suggest(
+                    sel => sel.Completion(name,
+                        suggest => suggest.Prefix(text).Field(f => f.suggest).SkipDuplicates()
+                    )
+                )
+            );
+
+            if (result.IsValid)
+            {
+                var suggest = result.Suggest[name];
+                var search = suggest.FirstOrDefault();
+
+                Console.WriteLine($"{search.Text} {search.Length}");
+
+                foreach (var item in search.Options)
+                {
+                    Console.WriteLine($"{item.Text}");                    
+                }
+            }
+            else
+            {
+                Console.WriteLine($"Invalid - {result.ServerError.ToString()}");
+            }
+        }
+
+        
+        static void Main(string[] args)
+        {
+            //var cli = CreateCli();
+
+            //PrintSugestion(cli,"au");
+            
+
+            var initial = Console.CursorTop;
+            var phrase = "";
+
+            Console.WriteLine();
+            Console.WriteLine("Please enter search phrase.");
+            
+            while (true)
+            {
+                var key = Console.ReadKey();
+
+                Console.WriteLine($"key - {key.KeyChar} - {key.Key}");
+
+                
+                // Console.SetCursorPosition(0,initial - 1);
+
+                // Console.WriteLine(phrase);
+
+                // Console.SetCursorPosition(0,initial - 2);
             }
         }
     }

@@ -118,7 +118,6 @@ namespace data_generator
             var phrase = "";
 
             Console.Clear();
-            Console.WriteLine("Please enter search phrase.");
 
             var initial = Console.CursorTop;
 

@@ -25,23 +25,23 @@ namespace data_generator
         static void Generate()
         {
             var id = 0l;
-            
+
             var testUsers = new Faker<UserData>()
-                .CustomInstantiator(r => new UserData() {id = Interlocked.Add(ref id, 1).ToString("000000000000000")})
+                .CustomInstantiator(r => new UserData() { id = Interlocked.Add(ref id, 1).ToString("000000000000000") })
                 .RuleFor(p => p.firstName, f => f.Name.FirstName())
                 .RuleFor(p => p.lastName, f => f.Name.LastName())
                 .RuleFor(p => p.model, f => f.Vehicle.Model())
                 .RuleFor(p => p.manufacturer, f => f.Vehicle.Manufacturer())
-                .RuleFor(p => p.email, (f, u) => f.Internet.Email(u.firstName,u.lastName))
+                .RuleFor(p => p.email, (f, u) => f.Internet.Email(u.firstName, u.lastName))
                 .RuleFor(p => p.tags, (f, u) =>
                     new List<string>()
                     {
-                        f.Address.Country(), f.Address.City(), f.Vehicle.Manufacturer(), f.Vehicle.Model()
+                        f.Vehicle.Manufacturer(), f.Vehicle.Model(), f.Address.Country(), f.Address.City()
                     })
                 .RuleFor(p => p.suggest, (f, u) =>
                     new List<string>()
                     {
-                        f.Internet.Email(), f.Name.FirstName(), f.Name.LastName(), f.Vehicle.Manufacturer(), f.Vehicle.Model()
+                        f.Vehicle.Manufacturer().ToLower(), f.Vehicle.Model().ToLower(), f.Address.Country().ToLower(), f.Address.City().ToLower()
                     });
 
             var cli = CreateCli();
@@ -63,7 +63,7 @@ namespace data_generator
             const int CYCLES = 1000;
             const int REC_PER_CYCLES = 5000;
 
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < CYCLES; i++)
             {
                 var items = testUsers.Generate(REC_PER_CYCLES);
                 var ops = items.Select(x => new BulkIndexOperation<UserData>(x)).ToArray();
@@ -71,7 +71,8 @@ namespace data_generator
                 {
                     Operations = new List<IBulkOperation>(ops)
                 });
-                
+
+                Console.Clear();
                 Console.WriteLine(i);
             }
         }
@@ -93,46 +94,65 @@ namespace data_generator
                 var suggest = result.Suggest[name];
                 var search = suggest.FirstOrDefault();
 
-                Console.WriteLine($"{search.Text} {search.Length}");
+                Console.WriteLine($"[{search.Text}] - {search.Length}");
 
                 foreach (var item in search.Options)
                 {
-                    Console.WriteLine($"{item.Text}");                    
+                    Console.WriteLine($"{item.Text}");
                 }
             }
             else
             {
-                Console.WriteLine($"Invalid - {result.ServerError.ToString()}");
+                Console.WriteLine($"Invalid - {result.ToString()}");
             }
         }
 
-        
-        static void Main(string[] args)
+
+        static void AutoCommplete()
         {
-            //var cli = CreateCli();
+            var cli = CreateCli();
 
             //PrintSugestion(cli,"au");
-            
 
-            var initial = Console.CursorTop;
+
             var phrase = "";
 
-            Console.WriteLine();
+            Console.Clear();
             Console.WriteLine("Please enter search phrase.");
-            
+
+            var initial = Console.CursorTop;
+
             while (true)
             {
                 var key = Console.ReadKey();
 
-                Console.WriteLine($"key - {key.KeyChar} - {key.Key}");
+                if (key.Key == ConsoleKey.Backspace && phrase.Length > 0)
+                {
+                    phrase = phrase.Substring(0, phrase.Length - 1);
+                }
+                else if (key.KeyChar != '\0')
+                {
+                    phrase += key.KeyChar;
+                }
 
-                
-                // Console.SetCursorPosition(0,initial - 1);
 
-                // Console.WriteLine(phrase);
+                Console.Clear();
+                Console.SetCursorPosition(0, initial);
+                Console.WriteLine("                                                                                   ");
 
-                // Console.SetCursorPosition(0,initial - 2);
+                if (phrase.Length > 0)
+                {
+                    PrintSugestion(cli, phrase);
+                }
+
+                Console.SetCursorPosition(0, initial);
+                Console.Write(phrase);
             }
+        }
+
+        static void Main(string[] args)
+        {
+            Generate();
         }
     }
 }

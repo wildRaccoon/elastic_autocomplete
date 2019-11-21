@@ -13,33 +13,33 @@
                 "index": "true",
                 "store": "true"
             },
-					  "lastName": {
+            "lastName": {
                 "type": "text",
                 "index": "true",
                 "store": "true"
             },
-			"model": {
+            "model": {
                 "type": "text",
                 "index": "true",
                 "store": "true"
             },
-			"manufacturer": {
+            "manufacturer": {
                 "type": "text",
                 "index": "true",
                 "store": "true"
             },
-					  "email": {
+            "email": {
                 "type": "text",
                 "index": "true",
                 "store": "true"
             },
-						"tags": {
+            "tags": {
                 "type": "text",
                 "index": true
             },
-					 "suggest": {
-						 		"type": "completion"
-						}
+            "suggest": {
+                "type": "completion"
+            }
         }
     },
     "aliases": {

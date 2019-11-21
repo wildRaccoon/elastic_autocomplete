@@ -94,7 +94,7 @@ namespace data_generator
                 var suggest = result.Suggest[name];
                 var search = suggest.FirstOrDefault();
 
-                Console.WriteLine($"[{search.Text}] - {search.Length}");
+                Console.WriteLine($"[{search.Text}] - {result.Took}ms");
 
                 foreach (var item in search.Options)
                 {
@@ -152,7 +152,9 @@ namespace data_generator
 
         static void Main(string[] args)
         {
-            Generate();
+            //Generate();
+
+            AutoCommplete();
         }
     }
 }

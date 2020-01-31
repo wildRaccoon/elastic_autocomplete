@@ -60,7 +60,7 @@ namespace data_generator
                 return;
             }
 
-            const int CYCLES = 1000;
+            const int CYCLES = 200;
             const int REC_PER_CYCLES = 5000;
 
             for (int i = 0; i < CYCLES; i++)
@@ -112,14 +112,12 @@ namespace data_generator
         {
             var cli = CreateCli();
 
-            //PrintSugestion(cli,"au");
-
-
             var phrase = "";
 
             Console.Clear();
 
-            var initial = Console.CursorTop;
+            var initial = Console.CursorTop + 1;
+            Console.WriteLine($"Search:");
 
             while (true)
             {
@@ -136,6 +134,7 @@ namespace data_generator
 
 
                 Console.Clear();
+                Console.WriteLine($"Search:");
                 Console.SetCursorPosition(0, initial);
                 Console.WriteLine("                                                                                   ");
 

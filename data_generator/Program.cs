@@ -24,7 +24,7 @@ namespace data_generator
         }
         static void Generate()
         {
-            var id = 0l;
+            var id = 0L;
 
             var testUsers = new Faker<UserData>()
                 .CustomInstantiator(r => new UserData() { id = Interlocked.Add(ref id, 1).ToString("000000000000000") })

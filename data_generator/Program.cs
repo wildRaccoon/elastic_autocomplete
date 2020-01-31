@@ -151,7 +151,11 @@ namespace data_generator
 
         static void Main(string[] args)
         {
-            //Generate();
+            if (args.FirstOrDefault().ToLower() == "generate")
+            {
+                Console.WriteLine("Generate data for test");
+                Generate();
+            }
 
             AutoCommplete();
         }

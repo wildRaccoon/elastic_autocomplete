@@ -36,15 +36,17 @@ namespace data_generator
                 .RuleFor(p => p.tags, (f, u) =>
                     new List<string>()
                     {
-                        f.Vehicle.Manufacturer(), f.Vehicle.Model(), f.Address.Country(), f.Address.City()
+                        u.manufacturer, u.model, u.email
                     })
                 .RuleFor(p => p.suggest, (f, u) =>
                     new List<string>()
                     {
-                        f.Vehicle.Manufacturer().ToLower(), f.Vehicle.Model().ToLower(), f.Address.Country().ToLower(), f.Address.City().ToLower()
+                        u.manufacturer, u.model, u.email, u.firstName, u.lastName
                     });
 
             var cli = CreateCli();
+            Console.Clear();
+            var initial = Console.CursorTop + 1;
 
             var catResp = cli.Cat.Indices(r => r.Index("idx_test"));
             if (catResp.IsValid && catResp.Records.Count > 0)
@@ -60,7 +62,7 @@ namespace data_generator
                 return;
             }
 
-            const int CYCLES = 200;
+            const int CYCLES = 50;
             const int REC_PER_CYCLES = 5000;
 
             for (int i = 0; i < CYCLES; i++)
@@ -72,8 +74,8 @@ namespace data_generator
                     Operations = new List<IBulkOperation>(ops)
                 });
 
-                Console.Clear();
-                Console.WriteLine(i);
+                Console.SetCursorPosition(0, initial);
+                Console.WriteLine(i + 1);
             }
         }
 
@@ -131,8 +133,7 @@ namespace data_generator
                 {
                     phrase += key.KeyChar;
                 }
-
-
+                
                 Console.Clear();
                 Console.WriteLine($"Search:");
                 Console.SetCursorPosition(0, initial);
@@ -154,11 +155,11 @@ namespace data_generator
             {
                 Console.WriteLine("Generate data for test");
                 Generate();
-            } 
-            else 
+            }
+            else
             {
                 AutoCommplete();
-            }            
+            }
         }
     }
 }
